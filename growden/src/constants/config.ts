@@ -53,7 +53,7 @@ export const RISK_PROFILES: Record<RiskProfile, {
   jungle: {
     name: 'Jungle',
     emoji: '🌴',
-    description: 'Aggressive. Heavy equities and crypto. Maximum growth potential. Can get wild in storms.',
+    description: 'Aggressive. Equity-focused for maximum growth potential. Can get wild in storms.',
     suggestedAllocation: { bonds: 10, cash: 5, equity: 45, commodities: 15, crypto: 25 },
     color: '#E8623C',
   },

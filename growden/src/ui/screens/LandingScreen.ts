@@ -14,8 +14,9 @@ export class LandingScreen {
       <div class="screen" style="background: linear-gradient(180deg, rgba(232,244,248,0.9) 0%, rgba(240,237,230,0.95) 100%);">
         <div style="text-align: center; max-width: 500px;">
           <p class="text-caption text-muted mb-md">PostFinance · Wealth Manager Arena</p>
-          <h1 class="text-hero mb-md" style="color: var(--pf-petrol);">
-            Growden <span style="font-size: 48px;">🌱</span>
+          <h1 class="text-hero mb-md" style="color: var(--pf-petrol); display: inline-flex; align-items: center; gap: 10px;">
+            <span>Growden</span>
+            <img src="/icons/plant.png" alt="Hands with plants" style="height: 46px; width: 46px; object-fit: contain;" />
           </h1>
           <p class="text-body text-muted mb-lg" style="max-width: 380px; margin: 0 auto var(--space-xl);">
             Grow your knowledge. Grow your wealth.<br>
@@ -33,16 +34,22 @@ export class LandingScreen {
 
           <div style="margin-top: var(--space-2xl); display: flex; gap: var(--space-xl); justify-content: center;">
             <div class="text-center">
-              <div style="font-size: 24px;">🌳</div>
-              <div class="text-small text-muted">Plant assets</div>
+              <div style="height: 40px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px;">
+                <img src="/icons/plant.png" alt="Hands with plants" style="height: 36px; width: 36px; object-fit: contain;" />
+              </div>
+              <div class="text-small text-muted">Hands with plants</div>
             </div>
             <div class="text-center">
-              <div style="font-size: 24px;">⛈️</div>
-              <div class="text-small text-muted">Weather events</div>
+              <div style="height: 40px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px;">
+                <img src="/icons/weather.png" alt="Calendar weather" style="height: 36px; width: 36px; object-fit: contain;" />
+              </div>
+              <div class="text-small text-muted">Calendar weather</div>
             </div>
             <div class="text-center">
-              <div style="font-size: 24px;">📈</div>
-              <div class="text-small text-muted">Learn investing</div>
+              <div style="height: 40px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px;">
+                <img src="/icons/profit.png" alt="Growth chart" style="height: 36px; width: 36px; object-fit: contain;" />
+              </div>
+              <div class="text-small text-muted">Growth chart</div>
             </div>
           </div>
         </div>

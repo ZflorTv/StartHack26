@@ -7,10 +7,12 @@ export interface BattleScore {
   total: number
   riskReliability: number    // 0-100
   profitability: number      // 0-100
+  returnRiskRatio: number    // 0-100
   esgScore: number           // 0-100
   breakdown: {
     riskDetail: string
     profitDetail: string
+    returnRiskDetail: string
     esgDetail: string
   }
 }
@@ -26,23 +28,27 @@ export class ScoringEngine {
   ): BattleScore {
     const riskReliability = ScoringEngine.calculateRiskReliability(portfolio, declaredProfile)
     const profitability = ScoringEngine.calculateProfitability(portfolio, eventEffects, amplitude)
+    const returnRiskRatio = ScoringEngine.calculateReturnRiskRatio(portfolio, eventEffects, amplitude)
     const esgScore = ScoringEngine.calculateESG(portfolio)
 
-    // Weighted total: risk 30%, profit 40%, ESG 30%
+    // Weighted total: risk 25%, profit 30%, return/risk 25%, ESG 20%
     const total = Math.round(
-      riskReliability * 0.30 +
-      profitability * 0.40 +
-      esgScore * 0.30
+      riskReliability * 0.25 +
+      profitability * 0.30 +
+      returnRiskRatio * 0.25 +
+      esgScore * 0.20
     )
 
     return {
       total,
       riskReliability,
       profitability,
+      returnRiskRatio,
       esgScore,
       breakdown: {
         riskDetail: `Portfolio alignment with ${declaredProfile} profile`,
         profitDetail: `Performance through the event`,
+        returnRiskDetail: 'Expected reward per unit of volatility',
         esgDetail: `Sustainability and clean asset score`,
       },
     }
@@ -100,6 +106,42 @@ export class ScoringEngine {
     // Map return to 0-100 score. +30% = 100, -30% = 0, 0% = 50
     const score = Math.max(0, Math.min(100, Math.round(50 + totalReturn * 166.7)))
     return score
+  }
+
+  // Return/Risk ratio proxy: expected return divided by expected volatility.
+  static calculateReturnRiskRatio(
+    portfolio: Portfolio,
+    effects: Record<string, number>,
+    amplitude: Amplitude,
+  ): number {
+    const total = Object.values(portfolio).reduce((sum, v) => sum + v, 0)
+    if (total === 0) return 0
+
+    const amplitudeMultipliers = { light: 0.4, moderate: 1.0, severe: 2.2 }
+    const multiplier = amplitudeMultipliers[amplitude]
+
+    const weightedReturns: Array<{ weight: number; effect: number }> = []
+    let expectedReturn = 0
+
+    Object.entries(portfolio).forEach(([plantId, allocation]) => {
+      const weight = allocation / total
+      const effect = (effects[plantId] ?? 0) * multiplier
+      expectedReturn += effect * weight
+      weightedReturns.push({ weight, effect })
+    })
+
+    const variance = weightedReturns.reduce((sum, item) => {
+      const diff = item.effect - expectedReturn
+      return sum + item.weight * diff * diff
+    }, 0)
+    const volatility = Math.sqrt(Math.max(variance, 0))
+
+    // Add a small floor to avoid division explosion on near-zero volatility.
+    const sharpeLike = expectedReturn / (volatility + 0.02)
+
+    // Map roughly [-1.0, +1.0] to [0, 100].
+    const normalized = 50 + sharpeLike * 50
+    return Math.max(0, Math.min(100, Math.round(normalized)))
   }
 
   // ESG score: penalize dirty assets, reward clean ones
