@@ -1,10 +1,11 @@
-import { Container, Graphics, Text, TextStyle } from 'pixi.js'
+import { Container, Graphics, Text, TextStyle, Sprite, Texture } from 'pixi.js'
 import type { PlantState } from '../types'
 
 export class PlantSprite extends Container {
   public plantId: string
   public assetCategory: string
   private body: Graphics
+  private plantImage: Sprite | null = null
   private emojiText: Text
   private labelText: Text
   private currentState: PlantState = 'healthy'
@@ -16,6 +17,7 @@ export class PlantSprite extends Container {
     emoji: string,
     color: string,
     category: string,
+    icon: string,
     position: { x: number; y: number; scale: number },
   ) {
     super()
@@ -23,12 +25,12 @@ export class PlantSprite extends Container {
     this.assetCategory = category
     this.plantColor = parseInt(color.replace('#', ''), 16)
 
-    // Create plant body (circle/shape representing the plant)
+    // Create plant body (hidden if PNG loads, fallback if it doesn't)
     this.body = new Graphics()
     this.drawPlantBody()
     this.addChild(this.body)
 
-    // Emoji on top
+    // Emoji on top (hidden if PNG loads)
     this.emojiText = new Text({
       text: emoji,
       style: new TextStyle({
@@ -39,6 +41,25 @@ export class PlantSprite extends Container {
     this.emojiText.anchor.set(0.5, 0.5)
     this.emojiText.y = -10
     this.addChild(this.emojiText)
+
+    // Load actual plant PNG image
+    if (icon) {
+      try {
+        this.plantImage = Sprite.from(icon)
+        this.plantImage.anchor.set(0.5, 0.5)
+        this.plantImage.width = 48
+        this.plantImage.height = 48
+        this.plantImage.y = -10
+        this.addChild(this.plantImage)
+
+        // Hide the emoji and geometric shape since we have the real image
+        this.emojiText.visible = false
+        this.body.visible = false
+      } catch (e) {
+        // If PNG fails to load, keep emoji + shape as fallback
+        console.warn(`Failed to load plant image: ${icon}, using emoji fallback`)
+      }
+    }
 
     // Label below
     this.labelText = new Text({
@@ -126,7 +147,13 @@ export class PlantSprite extends Container {
     this.currentState = state
     this.drawPlantBody()
 
-    // Adjust emoji opacity
+    // Adjust opacity based on state (works for both PNG and emoji)
+    const alpha = this.getAlphaForState()
+
+    if (this.plantImage) {
+      this.plantImage.alpha = alpha
+    }
+
     switch (state) {
       case 'healthy':
         this.emojiText.alpha = 1.0
