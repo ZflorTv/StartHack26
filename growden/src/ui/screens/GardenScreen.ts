@@ -93,7 +93,7 @@ export class GardenScreen {
         const catColor = CATEGORY_COLORS[plant.category] || '#ccc'
         return `
           <div class="garden-plant-chip" style="border-left: 3px solid ${catColor};">
-            ${plant.emoji} ${plant.name.split(' ')[0]} <span class="text-muted">${allocation}%</span>
+            ${plant.emoji} ${plant.name} <span class="text-muted">${allocation}%</span>
           </div>
         `
       })
