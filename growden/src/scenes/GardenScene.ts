@@ -39,11 +39,27 @@ export class GardenScene extends Container {
     this.drawPlatform()
     this.centerScene()
 
+    // Load images from 'Images PNG' folder
+    this.loadImages()
+
     // Handle resize
     this.app.renderer.on('resize', () => {
       this.centerScene()
       this.drawBackground()
     })
+  }
+
+  // Add this method to load images
+  private loadImages(): void {
+    const imagePath = '/Users/arnaudbutty/Desktop/Start Hackathon/Images PNG/'
+    const imageName = 'example.png' // Replace with your image name
+
+    const texture = PIXI.Texture.from(`${imagePath}${imageName}`)
+    const sprite = new PIXI.Sprite(texture)
+
+    sprite.x = 100 // Example position
+    sprite.y = 100
+    this.addChild(sprite)
   }
 
   private drawBackground(): void {
