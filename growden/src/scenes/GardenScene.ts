@@ -151,6 +151,7 @@ export class GardenScene extends Container {
         plantData.emoji,
         plantData.color,
         plantData.category,
+        plantData.icon,
         { x: pos.x, y: pos.y, scale: pos.scale * sizeScale },
       )
 
