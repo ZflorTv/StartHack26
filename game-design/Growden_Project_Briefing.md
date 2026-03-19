@@ -4,15 +4,8 @@
 
 **Event:** START Hack 2026, St. Gallen, Switzerland
 **Timeline:** Hacking started Wed ~20:00. Final submission Friday 08:00. Pitching starts Friday 08:30.
-**Team:** Arnaud Butty, Kilian Huber, Paul Ludmann, Aris (4th member, no CV on file)
+**Team:** Arnaud Butty, Kilian Huber, Paul Ludmann, Aris
 
-## Team Skills Summary
-
-• **Kilian:** System administrator, 7+ years IT infra, Linux/Windows servers, cybersecurity, Fortinet, Azure/Intune, Python/TypeScript/PowerShell/Bash, AZ-900 certified
-• **Paul:** BSc Economics at HSG (5.67/6.00 GPA), Data Science certificate, Python (Pandas, NumPy, Scikit-learn), ML, private equity intern at SWEN Capital Partners, financial analysis
-• **Arnaud:** BA Business Admin at HSG (5.32/6.00 GPA), Python intermediate, SQL intermediate, HTML/CSS beginner, KYC/compliance experience at Raiffeisen, trilingual (FR/DE/EN)
-• **Aris:** Skills not documented yet
-• **Team weakness:** Frontend/web development. Nobody has React/Vue as a core skill.
 
 ---
 
