@@ -16,7 +16,7 @@ export class LandingScreen {
           <p class="text-caption text-muted mb-md">PostFinance · Wealth Manager Arena</p>
           <h1 class="text-hero mb-md" style="color: var(--pf-petrol); display: inline-flex; align-items: center; gap: 10px;">
             <span>Growden</span>
-            <img src="/icons/plant.png" alt="Hands with plants" style="height: 46px; width: 46px; object-fit: contain;" />
+            <img src="/icons/logo_growden.png" alt="Hands with plants" style="height: 46px; width: 46px; object-fit: contain;" />
           </h1>
           <p class="text-body text-muted mb-lg" style="max-width: 380px; margin: 0 auto var(--space-xl);">
             Grow your knowledge. Grow your wealth.<br>
