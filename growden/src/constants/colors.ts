@@ -1,3 +1,5 @@
+/** Colour constants — PixiJS hex values, CSS strings, and lookup maps */
+
 export const COLORS = {
   // PostFinance brand
   yellow:      0xFFD100,

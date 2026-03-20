@@ -1,4 +1,13 @@
-import { Plant, PlantCategory } from '../types';
+/**
+ * Plant definitions — 20 real financial assets mapped to garden plants.
+ *
+ * Categories: equity (trees), bonds (bushes), cash (grasses),
+ * commodities (cacti), crypto (orchids).
+ * Each plant has base effects showing how it reacts to market events,
+ * plus a Flora insight for educational flavour.
+ */
+
+import { Plant } from '../types';
 
 export const PLANTS: Plant[] = [
   // ==================== EQUITY ====================
@@ -14,6 +23,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Pink',
     keywords: ['tech', 'growth', 'nasdaq', 'volatile'],
     unlocksAtLevel: 3,
+    cost: 160,
     visualStates: {
       seed: 'cherry_blossom_seed',
       sprout: 'cherry_blossom_sprout',
@@ -49,6 +59,7 @@ export const PLANTS: Plant[] = [
     colorName: 'White',
     keywords: ['healthcare', 'defensive', 'stable', 'pharma'],
     unlocksAtLevel: 4,
+    cost: 140,
     visualStates: {
       seed: 'magnolia_seed',
       sprout: 'magnolia_sprout',
@@ -85,6 +96,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Red',
     keywords: ['energy', 'oil', 'cyclical', 'volatile'],
     unlocksAtLevel: 5,
+    cost: 200,
     visualStates: {
       seed: 'flame_tree_seed',
       sprout: 'flame_tree_sprout',
@@ -119,6 +131,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Green',
     keywords: ['finance', 'banks', 'interest', 'dividends'],
     unlocksAtLevel: 2,
+    cost: 120,
     visualStates: {
       seed: 'apple_tree_seed',
       sprout: 'apple_tree_sprout',
@@ -155,6 +168,7 @@ export const PLANTS: Plant[] = [
     colorName: 'White',
     keywords: ['treasury', 'safe', 'government', 'risk-free'],
     unlocksAtLevel: 1,
+    cost: 75,
     visualStates: {
       seed: 'camellia_seed',
       sprout: 'camellia_sprout',
@@ -189,6 +203,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Blue',
     keywords: ['corporate', 'investment-grade', 'credit', 'income'],
     unlocksAtLevel: 2,
+    cost: 90,
     visualStates: {
       seed: 'hydrangea_seed',
       sprout: 'hydrangea_sprout',
@@ -222,6 +237,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Red',
     keywords: ['high-yield', 'junk', 'risk', 'coupon'],
     unlocksAtLevel: 6,
+    cost: 130,
     visualStates: {
       seed: 'hibiscus_seed',
       sprout: 'hibiscus_sprout',
@@ -256,6 +272,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Purple',
     keywords: ['emerging', 'developing', 'frontier', 'currency-risk'],
     unlocksAtLevel: 7,
+    cost: 150,
     visualStates: {
       seed: 'bougainvillea_seed',
       sprout: 'bougainvillea_sprout',
@@ -292,6 +309,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Light Pink',
     keywords: ['dollar', 'cash', 'safe', 'reserve'],
     unlocksAtLevel: 1,
+    cost: 50,
     visualStates: {
       seed: 'meadow_grass_usd_seed',
       sprout: 'meadow_grass_usd_sprout',
@@ -324,6 +342,7 @@ export const PLANTS: Plant[] = [
     colorName: 'White',
     keywords: ['swiss', 'franc', 'safe-haven', 'neutral'],
     unlocksAtLevel: 3,
+    cost: 65,
     visualStates: {
       seed: 'edelweiss_seed',
       sprout: 'edelweiss_sprout',
@@ -357,6 +376,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Green',
     keywords: ['euro', 'europe', 'currency', 'ecb'],
     unlocksAtLevel: 2,
+    cost: 55,
     visualStates: {
       seed: 'clover_eur_seed',
       sprout: 'clover_eur_sprout',
@@ -390,6 +410,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Beige',
     keywords: ['yen', 'japan', 'carry-trade', 'safe-haven'],
     unlocksAtLevel: 5,
+    cost: 80,
     visualStates: {
       seed: 'silver_grass_jpy_seed',
       sprout: 'silver_grass_jpy_sprout',
@@ -424,6 +445,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Yellow',
     keywords: ['gold', 'precious', 'safe-haven', 'inflation-hedge'],
     unlocksAtLevel: 1,
+    cost: 85,
     visualStates: {
       seed: 'golden_barrel_seed',
       sprout: 'golden_barrel_sprout',
@@ -457,6 +479,7 @@ export const PLANTS: Plant[] = [
     colorName: 'White',
     keywords: ['oil', 'crude', 'energy', 'opec'],
     unlocksAtLevel: 5,
+    cost: 180,
     visualStates: {
       seed: 'night_blooming_cactus_seed',
       sprout: 'night_blooming_cactus_sprout',
@@ -490,6 +513,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Orange',
     keywords: ['wheat', 'agriculture', 'food', 'inflation'],
     unlocksAtLevel: 6,
+    cost: 130,
     visualStates: {
       seed: 'prickly_pear_seed',
       sprout: 'prickly_pear_sprout',
@@ -523,6 +547,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Brown',
     keywords: ['copper', 'industrial', 'construction', 'cyclical'],
     unlocksAtLevel: 7,
+    cost: 170,
     visualStates: {
       seed: 'cholla_seed',
       sprout: 'cholla_sprout',
@@ -559,6 +584,7 @@ export const PLANTS: Plant[] = [
     colorName: 'White',
     keywords: ['bitcoin', 'btc', 'digital-gold', 'decentralized'],
     unlocksAtLevel: 6,
+    cost: 220,
     visualStates: {
       seed: 'white_phalaenopsis_seed',
       sprout: 'white_phalaenopsis_sprout',
@@ -593,6 +619,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Purple',
     keywords: ['ethereum', 'eth', 'smart-contracts', 'defi'],
     unlocksAtLevel: 8,
+    cost: 280,
     visualStates: {
       seed: 'purple_dendrobium_seed',
       sprout: 'purple_dendrobium_sprout',
@@ -626,6 +653,7 @@ export const PLANTS: Plant[] = [
     colorName: 'Blue',
     keywords: ['solana', 'sol', 'altcoin', 'speed'],
     unlocksAtLevel: 9,
+    cost: 350,
     visualStates: {
       seed: 'blue_exotic_orchid_seed',
       sprout: 'blue_exotic_orchid_sprout',
@@ -659,6 +687,8 @@ export const PLANTS: Plant[] = [
     colorName: 'Green',
     keywords: ['stablecoin', 'usdc', 'usdt', 'peg'],
     unlocksAtLevel: 7,
+    cost: 100,
+    sellRatio: 0.7,
     visualStates: {
       seed: 'green_cymbidium_seed',
       sprout: 'green_cymbidium_sprout',
@@ -683,10 +713,25 @@ export const PLANTS: Plant[] = [
 export const PLANTS_MAP: Record<string, Plant> = {};
 PLANTS.forEach(p => PLANTS_MAP[p.id] = p);
 
-export function getPlantsByCategory(category: PlantCategory): Plant[] {
-  return PLANTS.filter(p => p.category === category);
-}
-
 export function getUnlockedPlants(level: number): Plant[] {
   return PLANTS.filter(p => p.unlocksAtLevel <= level);
+}
+
+/** Plants that unlock exactly at this level (new this level) */
+export function getNewPlantsForLevel(level: number): Plant[] {
+  return PLANTS.filter(p => p.unlocksAtLevel === level);
+}
+
+/** Get the buy cost for a plant (checks both regular and bad plants) */
+export function getPlantCost(plantId: string): number {
+  const plant = PLANTS_MAP[plantId]
+  if (plant) return plant.cost
+  return 100 // fallback — bad plants resolved via ALL_PLANTS lookup in badPlants.ts
+}
+
+/** Get the sell refund for a plant */
+export function getPlantSellValue(plantId: string): number {
+  const plant = PLANTS_MAP[plantId]
+  if (plant) return Math.round(plant.cost * (plant.sellRatio ?? 0.5))
+  return 50 // fallback
 }

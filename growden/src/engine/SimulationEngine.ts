@@ -1,6 +1,14 @@
+/**
+ * SimulationEngine — Game event logic
+ *
+ * Picks random market events per level, applies their financial effects
+ * to the portfolio, and scores the player's response (hold / rebalance / panic sell).
+ * Final scoring adds bonuses for diversification and portfolio growth.
+ */
+
 import type { GameEvent, Amplitude, EventResult } from '../types'
 import { GameStateManager } from './GameState'
-import { GAME_EVENTS, EVENTS_MAP, getEventsForLevel } from '../data/events'
+import { EVENTS_MAP } from '../data/events'
 import { GAME_CONFIG, LEVEL_EVENTS } from '../constants/config'
 
 export class SimulationEngine {
@@ -43,12 +51,11 @@ export class SimulationEngine {
     return 'light'
   }
 
-  // Apply an event to the portfolio
+  // Apply an event to the portfolio (affects flower balance)
   applyEvent(event: GameEvent, amplitude: Amplitude): EventResult {
-    const portfolioBefore = this.gameState.getPortfolioValue()
+    const flowersBefore = this.gameState.getFlowers()
 
     if (event.twoPhase && event.phase1 && event.phase2) {
-      // Two-phase events (sector mania): apply phase1 first
       this.gameState.applyEventEffects(event.phase1.effects, 'moderate')
     } else if (event.amplitudes) {
       const amplitudeData = event.amplitudes[amplitude]
@@ -57,14 +64,14 @@ export class SimulationEngine {
       }
     }
 
-    const portfolioAfter = this.gameState.getPortfolioValue()
+    const flowersAfter = this.gameState.getFlowers()
 
     const result: EventResult = {
       eventId: event.id,
       amplitude,
       level: this.gameState.getCurrentLevel(),
-      portfolioBefore,
-      portfolioAfter,
+      flowersBefore,
+      flowersAfter,
       playerAction: 'hold',
       pointsEarned: 0,
     }
@@ -85,7 +92,7 @@ export class SimulationEngine {
     let points = 0
 
     // Base scoring
-    const changePercent = (result.portfolioAfter - result.portfolioBefore) / result.portfolioBefore
+    const changePercent = (result.flowersAfter - result.flowersBefore) / result.flowersBefore
 
     if (changePercent > 0) {
       points += Math.round(changePercent * 100)
@@ -108,7 +115,7 @@ export class SimulationEngine {
     if (event.penaltyForOvertrading && action === 'rebalance') {
       const penalty = event.overtradingPenalty || GAME_CONFIG.OVERTRADING_PENALTY
       points += penalty
-      this.gameState.addScore(`Overtaded during ${event.name}`, penalty)
+      this.gameState.addScore(`Overtraded during ${event.name}`, penalty)
     }
 
     // Diversification bonus
@@ -156,8 +163,8 @@ export class SimulationEngine {
       this.gameState.addScore('Excellent diversification', bonus)
     }
 
-    // Portfolio growth bonus
-    const growth = (state.portfolioValue - GAME_CONFIG.BASE_PORTFOLIO_VALUE) / GAME_CONFIG.BASE_PORTFOLIO_VALUE
+    // Flower growth bonus
+    const growth = (state.flowers - GAME_CONFIG.STARTING_FLOWERS) / GAME_CONFIG.STARTING_FLOWERS
     if (growth > 0) {
       const growthBonus = Math.round(growth * 50)
       total += growthBonus

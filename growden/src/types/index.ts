@@ -1,3 +1,5 @@
+/** Shared type definitions for the entire Growden application */
+
 export type RiskProfile = 'zen' | 'meadow' | 'jungle'
 export type Amplitude = 'light' | 'moderate' | 'severe'
 export type PlantState = 'healthy' | 'growing' | 'damaged' | 'wilted'
@@ -59,6 +61,8 @@ export interface Plant {
   riskLevel: string
   volatility: string
   rebound?: boolean
+  cost: number           // flowers to buy one unit (10% allocation)
+  sellRatio?: number     // fraction of cost refunded on sell (default 0.5)
   floraInsight: string
   // Bond-specific
   couponYield?: number
@@ -100,9 +104,8 @@ export interface GameState {
   portfolio: Portfolio
   currentLevel: number
   maxLevel: number
-  portfolioValue: number
-  portfolioHistory: { level: number; value: number }[]
-  flowers: number  // in-game currency
+  flowers: number  // unified currency — replaces both old "portfolioValue" and "flowers"
+  flowerHistory: { level: number; value: number }[]
   score: number
   scoreBreakdown: ScoreEvent[]
   unlockedPlants: string[]
@@ -123,8 +126,8 @@ export interface EventResult {
   eventId: string
   amplitude: Amplitude
   level: number
-  portfolioBefore: number
-  portfolioAfter: number
+  flowersBefore: number
+  flowersAfter: number
   playerAction: 'hold' | 'rebalance' | 'panic_sell'
   pointsEarned: number
 }
