@@ -8,6 +8,11 @@ import gsap from 'gsap'
 export class RiskProfileScreen {
   private container: HTMLElement
   private onSelect: (profile: RiskProfile) => void
+  private iconByProfile: Record<RiskProfile, string> = {
+    zen: '/icons/zen_garden.png',
+    meadow: '/icons/meadow.png',
+    jungle: '/icons/jungle.png',
+  }
 
   constructor(container: HTMLElement, onSelect: (profile: RiskProfile) => void) {
     this.container = container
@@ -23,17 +28,18 @@ export class RiskProfileScreen {
         <div style="margin-top: var(--space-md);">
           <div class="text-caption text-muted mb-sm">Suggested mix</div>
           <div class="portfolio-bar" style="height: 8px;">
-            ${this.renderAllocationBar(profile.suggestedAllocation)}
+            ${this.renderAllocationBar(displayAllocation)}
           </div>
           <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-            ${Object.entries(profile.suggestedAllocation)
+            ${Object.entries(displayAllocation)
               .filter(([_, v]) => v > 0)
               .map(([cat, v]) => `<span class="text-small text-muted num">${cat} ${v}%</span>`)
               .join('')}
           </div>
         </div>
       </div>
-    `).join('')
+    `
+    }).join('')
 
     this.container.innerHTML = `
       <div class="screen" style="overflow-y: auto;">
@@ -74,8 +80,6 @@ export class RiskProfileScreen {
       equity: '#4CAF50',
       bonds: '#2196F3',
       cash: '#9E9E9E',
-      commodities: '#FFD100',
-      crypto: '#9C27B0',
     }
     return Object.entries(allocation)
       .filter(([_, v]) => v > 0)
@@ -83,6 +87,40 @@ export class RiskProfileScreen {
         `<div class="portfolio-bar-segment" style="width: ${v}%; background: ${colors[cat] || '#ccc'};"></div>`
       )
       .join('')
+  }
+
+  private getDisplayAllocation(allocation: Record<string, number>): Record<string, number> {
+    const allowedCategories = ['equity', 'bonds', 'cash']
+    const filtered = allowedCategories
+      .map(category => [category, allocation[category] ?? 0] as const)
+      .filter(([_, value]) => value > 0)
+
+    const total = filtered.reduce((sum, [_, value]) => sum + value, 0)
+    if (total === 0) return {}
+
+    const normalized: Record<string, number> = {}
+    let allocated = 0
+
+    filtered.forEach(([category, value], index) => {
+      if (index === filtered.length - 1) {
+        normalized[category] = 100 - allocated
+      } else {
+        const share = Math.round((value / total) * 100)
+        normalized[category] = share
+        allocated += share
+      }
+    })
+
+    return normalized
+  }
+
+  private formatCategoryLabel(category: string): string {
+    const labels: Record<string, string> = {
+      equity: 'Equity',
+      bonds: 'Bonds',
+      cash: 'Cash',
+    }
+    return labels[category] || category
   }
 
   destroy(): void {

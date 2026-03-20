@@ -13,7 +13,7 @@ export const PLANTS: Plant[] = [
   // ==================== EQUITY ====================
   {
     id: 'cherry_blossom',
-    name: 'Cherry Blossom',
+    name: 'Equity Tech - Cherry Blossom',
     emoji: '🌸',
     icon: 'assets/plants/cherry_blossom.png',
     category: 'equity',
@@ -49,7 +49,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'magnolia',
-    name: 'Magnolia',
+    name: 'Equity Healthcare - Magnolia',
     emoji: '🤍',
     icon: 'assets/plants/magnolia.png',
     category: 'equity',
@@ -86,7 +86,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'flame_tree',
-    name: 'Flame Tree',
+    name: 'Equity Energy - Flame Tree',
     emoji: '🔥',
     icon: 'assets/plants/flame_tree.png',
     category: 'equity',
@@ -121,7 +121,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'apple_tree',
-    name: 'Apple Tree',
+    name: 'Equity Finance - Apple Tree',
     emoji: '🍎',
     icon: 'assets/plants/apple_tree.png',
     category: 'equity',
@@ -158,7 +158,7 @@ export const PLANTS: Plant[] = [
   // ==================== BONDS ====================
   {
     id: 'camellia',
-    name: 'Camellia',
+    name: 'Bonds US Treasury - Camellia',
     emoji: '🤍',
     icon: 'assets/plants/camellia.png',
     category: 'bonds',
@@ -193,7 +193,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'hydrangea',
-    name: 'Hydrangea',
+    name: 'Bonds Corporate - Hydrangea',
     emoji: '💙',
     icon: 'assets/plants/hydrangea.png',
     category: 'bonds',
@@ -227,7 +227,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'hibiscus',
-    name: 'Hibiscus',
+    name: 'Bonds High-Yield - Hibiscus',
     emoji: '🌺',
     icon: 'assets/plants/hibiscus.png',
     category: 'bonds',
@@ -262,7 +262,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'bougainvillea',
-    name: 'Bougainvillea',
+    name: 'Bonds EM - Bougainvillea',
     emoji: '💜',
     icon: 'assets/plants/bougainvillea.png',
     category: 'bonds',
@@ -299,7 +299,7 @@ export const PLANTS: Plant[] = [
   // ==================== CASH ====================
   {
     id: 'meadow_grass_usd',
-    name: 'Meadow Grass (USD)',
+    name: 'Cash USD - Meadow Grass',
     emoji: '🌱',
     icon: 'assets/plants/meadow_grass_usd.png',
     category: 'cash',
@@ -332,7 +332,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'edelweiss',
-    name: 'Edelweiss',
+    name: 'Cash CHF - Edelweiss',
     emoji: '⭐',
     icon: 'assets/plants/edelweiss.png',
     category: 'cash',
@@ -366,7 +366,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'clover_eur',
-    name: 'Clover (EUR)',
+    name: 'Cash EUR - Clover',
     emoji: '☘️',
     icon: 'assets/plants/clover_eur.png',
     category: 'cash',
@@ -400,7 +400,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'silver_grass_jpy',
-    name: 'Silver Grass (JPY)',
+    name: 'Cash JPY - Silver Grass',
     emoji: '🌾',
     icon: 'assets/plants/silver_grass_jpy.png',
     category: 'cash',
@@ -435,7 +435,7 @@ export const PLANTS: Plant[] = [
   // ==================== COMMODITIES ====================
   {
     id: 'golden_barrel',
-    name: 'Golden Barrel',
+    name: 'Commodities Gold - Golden Barrel',
     emoji: '🌵',
     icon: 'assets/plants/golden_barrel.png',
     category: 'commodities',
@@ -469,7 +469,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'night_blooming_cactus',
-    name: 'Night Blooming Cactus',
+    name: 'Commodities Oil - Night Blooming Cactus',
     emoji: '🌙',
     icon: 'assets/plants/night_blooming_cactus.png',
     category: 'commodities',
@@ -503,7 +503,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'prickly_pear',
-    name: 'Prickly Pear',
+    name: 'Commodities Wheat - Prickly Pear',
     emoji: '🟠',
     icon: 'assets/plants/prickly_pear.png',
     category: 'commodities',
@@ -537,7 +537,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'cholla',
-    name: 'Cholla',
+    name: 'Commodities Copper - Cholla',
     emoji: '🟤',
     icon: 'assets/plants/cholla.png',
     category: 'commodities',
@@ -574,7 +574,7 @@ export const PLANTS: Plant[] = [
   // ==================== CRYPTO ====================
   {
     id: 'white_phalaenopsis',
-    name: 'White Phalaenopsis',
+    name: 'Crypto Bitcoin - White Phalaenopsis',
     emoji: '🦋',
     icon: 'assets/plants/white_phalaenopsis.png',
     category: 'crypto',
@@ -609,7 +609,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'purple_dendrobium',
-    name: 'Purple Dendrobium',
+    name: 'Crypto Ethereum - Purple Dendrobium',
     emoji: '💎',
     icon: 'assets/plants/purple_dendrobium.png',
     category: 'crypto',
@@ -643,7 +643,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'blue_exotic_orchid',
-    name: 'Blue Exotic Orchid',
+    name: 'Crypto Solana - Blue Exotic Orchid',
     emoji: '🔷',
     icon: 'assets/plants/blue_exotic_orchid.png',
     category: 'crypto',
@@ -677,7 +677,7 @@ export const PLANTS: Plant[] = [
   },
   {
     id: 'green_cymbidium',
-    name: 'Green Cymbidium',
+    name: 'Crypto Stablecoin - Green Cymbidium',
     emoji: '💚',
     icon: 'assets/plants/green_cymbidium.png',
     category: 'crypto',
