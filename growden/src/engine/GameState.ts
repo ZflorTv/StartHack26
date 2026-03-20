@@ -1,3 +1,14 @@
+/**
+ * GameStateManager — Central game state and event bus
+ *
+ * Holds the single source of truth for portfolio, score, level,
+ * flowers (the unified in-game currency), and event history.
+ * Emits named events so UI and engine layers can react to changes.
+ *
+ * Flowers serve as both the investment value AND the spending currency.
+ * Market events multiply the flower balance; buying plants deducts from it.
+ */
+
 import type { GameState, RiskProfile, Portfolio, ScreenName, ScoreEvent, EventResult, Amplitude } from '../types'
 import { GAME_CONFIG, RISK_PROFILES } from '../constants/config'
 
@@ -17,12 +28,11 @@ export class GameStateManager {
       portfolio: {},
       currentLevel: 1,
       maxLevel: GAME_CONFIG.MAX_LEVEL,
-      portfolioValue: GAME_CONFIG.BASE_PORTFOLIO_VALUE,
-      portfolioHistory: [{ level: 0, value: GAME_CONFIG.BASE_PORTFOLIO_VALUE }],
       flowers: GAME_CONFIG.STARTING_FLOWERS,
+      flowerHistory: [{ level: 0, value: GAME_CONFIG.STARTING_FLOWERS }],
       score: 0,
       scoreBreakdown: [],
-      unlockedPlants: [],  // will be populated based on level
+      unlockedPlants: [],
       playerName: 'Player',
       currentScreen: 'landing',
       tutorialStep: 0,
@@ -56,7 +66,6 @@ export class GameStateManager {
   getCurrentLevel(): number { return this.state.currentLevel }
   getFlowers(): number { return this.state.flowers }
   getScore(): number { return this.state.score }
-  getPortfolioValue(): number { return this.state.portfolioValue }
   getRiskProfile(): RiskProfile | null { return this.state.riskProfile }
   getCurrentScreen(): ScreenName { return this.state.currentScreen }
 
@@ -68,7 +77,6 @@ export class GameStateManager {
 
   setRiskProfile(profile: RiskProfile): void {
     this.state.riskProfile = profile
-    // Set suggested portfolio based on profile
     const suggested = RISK_PROFILES[profile].suggestedAllocation
     this.state.portfolio = { ...suggested }
     this.emit('riskProfileSet', profile)
@@ -85,7 +93,6 @@ export class GameStateManager {
 
   updatePortfolioAllocation(plantId: string, amount: number): void {
     this.state.portfolio[plantId] = Math.max(0, amount)
-    // Remove zero allocations
     if (this.state.portfolio[plantId] === 0) {
       delete this.state.portfolio[plantId]
     }
@@ -98,7 +105,7 @@ export class GameStateManager {
     if (!this.state.portfolio[plantId]) {
       this.state.portfolio[plantId] = 0
     }
-    this.state.portfolio[plantId] += 10  // each purchase adds 10% allocation
+    this.state.portfolio[plantId] += 10
     this.emit('plantBought', { plantId, cost })
     this.emit('flowersChanged', this.state.flowers)
     this.emit('portfolioChanged', this.state.portfolio)
@@ -125,42 +132,33 @@ export class GameStateManager {
 
     if (portfolioTotal === 0) return
 
-    // Calculate weighted portfolio effect
-    // The effects use generic plant category keys (oak, bush, grass, cactus, exotic)
-    // We need to map portfolio plantIds to these generic keys
     Object.entries(this.state.portfolio).forEach(([plantId, allocation]) => {
       const weight = allocation / portfolioTotal
-      // Try direct match first, then category match
       const effect = effects[plantId] ?? this.getCategoryEffect(plantId, effects) ?? 0
       totalEffect += effect * weight * multiplier
     })
 
-    const previousValue = this.state.portfolioValue
-    this.state.portfolioValue = Math.max(0, previousValue * (1 + totalEffect))
-    this.state.portfolioHistory.push({
+    const previousFlowers = this.state.flowers
+    this.state.flowers = Math.max(0, Math.round(previousFlowers * (1 + totalEffect)))
+    this.state.flowerHistory.push({
       level: this.state.currentLevel,
-      value: this.state.portfolioValue,
+      value: this.state.flowers,
     })
 
+    this.emit('flowersChanged', this.state.flowers)
     this.emit('portfolioValueChanged', {
-      previous: previousValue,
-      current: this.state.portfolioValue,
+      previous: previousFlowers,
+      current: this.state.flowers,
       change: totalEffect,
     })
   }
 
   private getCategoryEffect(plantId: string, effects: Record<string, number>): number | null {
-    // Map plant IDs to the generic event effect keys
     const categoryMap: Record<string, string> = {
-      // Equity -> oak
       cherry_blossom: 'oak', magnolia: 'oak', flame_tree: 'oak', apple_tree: 'oak',
-      // Bonds -> bush
       camellia: 'bush', hydrangea: 'bush', hibiscus: 'bush', bougainvillea: 'bush',
-      // Cash -> grass
       meadow_grass_usd: 'grass', edelweiss: 'grass', clover_eur: 'grass', silver_grass_jpy: 'grass',
-      // Commodities -> cactus
       golden_barrel: 'cactus', night_blooming_cactus: 'cactus', prickly_pear: 'cactus', cholla: 'cactus',
-      // Crypto -> exotic
       white_phalaenopsis: 'exotic', purple_dendrobium: 'exotic', blue_exotic_orchid: 'exotic', green_cymbidium: 'exotic',
     }
     const key = categoryMap[plantId]
@@ -206,7 +204,6 @@ export class GameStateManager {
   }
 
   getUnlockedPlantIds(): string[] {
-    // This would come from the plants data, filtering by level
     return this.state.unlockedPlants
   }
 
@@ -219,7 +216,6 @@ export class GameStateManager {
     this.emit('gameReset')
   }
 
-  // Calculate diversification score (0-100)
   getDiversificationScore(): number {
     const portfolio = this.state.portfolio
     const entries = Object.entries(portfolio).filter(([_, v]) => v > 0)
@@ -228,14 +224,12 @@ export class GameStateManager {
     const total = entries.reduce((sum, [_, v]) => sum + v, 0)
     if (total === 0) return 0
 
-    // Herfindahl index (lower = more diversified)
     let hhi = 0
     entries.forEach(([_, v]) => {
       const weight = v / total
       hhi += weight * weight
     })
 
-    // Convert to 0-100 scale (1/n would be perfect diversification)
     const n = entries.length
     const minHHI = 1 / n
     const maxHHI = 1

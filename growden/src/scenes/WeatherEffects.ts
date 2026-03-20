@@ -1,3 +1,12 @@
+/**
+ * WeatherEffects — Particle-based weather overlay
+ *
+ * Spawns and animates particles to visualise market events:
+ * rain (rate hikes), storm, frost, sun, heat shimmer, lightning flashes,
+ * fog, tornado spirals, meteor showers, and acid rain.
+ * Runs on the PixiJS ticker for frame-sync.
+ */
+
 import { Container, Graphics, Application } from 'pixi.js'
 
 interface Particle {

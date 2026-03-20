@@ -1,3 +1,12 @@
+/**
+ * ScoringEngine — Battle mode scoring
+ *
+ * Evaluates a portfolio against a specific event across three axes:
+ *  1. Risk reliability  — how well the portfolio matches the declared risk profile
+ *  2. Profitability     — how the portfolio performed through the event
+ *  3. ESG score         — penalises dirty / speculative assets (coal, leverage, junk)
+ */
+
 import type { Portfolio, RiskProfile, Amplitude } from '../types'
 import { RISK_PROFILES } from '../constants/config'
 import { PLANTS_MAP } from '../data/plants'
@@ -15,6 +24,15 @@ export interface BattleScore {
     returnRiskDetail: string
     esgDetail: string
   }
+}
+
+// Maps plant categories to the abstract effect keys used in event data
+const CATEGORY_EFFECT_KEY: Record<string, string> = {
+  equity: 'oak',
+  bonds: 'bush',
+  cash: 'grass',
+  commodities: 'cactus',
+  crypto: 'exotic',
 }
 
 export class ScoringEngine {
@@ -97,7 +115,10 @@ export class ScoringEngine {
     let weightedEffect = 0
     Object.entries(portfolio).forEach(([plantId, allocation]) => {
       const weight = allocation / total
-      const effect = effects[plantId] ?? 0
+      // Bad plants have direct effect keys; regular plants use category mapping
+      const plant = PLANTS_MAP[plantId]
+      const effectKey = plant ? (CATEGORY_EFFECT_KEY[plant.category] ?? plantId) : plantId
+      const effect = effects[effectKey] ?? effects[plantId] ?? 0
       weightedEffect += effect * weight
     })
 

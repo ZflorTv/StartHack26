@@ -1,6 +1,14 @@
-import confetti from 'canvas-confetti'
-import type { Portfolio, Amplitude } from '../../types'
+/**
+ * BattleScreen — Standalone portfolio challenge
+ *
+ * Picks a random event, lets the player build a portfolio via sliders,
+ * then scores it using ScoringEngine (risk reliability + profitability + ESG).
+ */
+
+import type { RiskProfile, Portfolio, Amplitude } from '../../types'
 import { PLANTS_MAP } from '../../data/plants'
+import { CATEGORY_COLORS } from '../../constants/colors'
+import { plantImg } from '../../utils/plantImage'
 import { ScoringEngine, type BattleScore } from '../../engine/ScoringEngine'
 import { EVENTS_MAP } from '../../data/events'
 
@@ -30,7 +38,7 @@ export class BattleScreen {
     const plantSliders = plants.map(p => `
       <div class="slider-container" style="margin-bottom: var(--space-sm);">
         <div class="slider-label">
-          <span class="text-small">${p.emoji} ${p.name}</span>
+          <span class="text-small">${plantImg(p.id, p.emoji, '20px')} ${p.name.split(' ')[0]}</span>
           <span class="text-small text-muted" id="val-${p.id}">0%</span>
         </div>
         <input type="range" class="slider-track" id="slider-${p.id}"

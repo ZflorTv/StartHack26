@@ -1,3 +1,11 @@
+/**
+ * Market events data — 10 event types with light / moderate / severe amplitudes.
+ *
+ * Each event defines per-category financial effects using abstract plant keys
+ * (oak = equity, bush = bonds, grass = cash, cactus = commodities, exotic = crypto).
+ * Bad plants (coal_bush, junk_weed, leveraged_vine) have their own effect entries.
+ */
+
 import { GameEvent } from '../types'
 
 export const GAME_EVENTS: GameEvent[] = [

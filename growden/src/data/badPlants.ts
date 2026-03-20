@@ -1,3 +1,10 @@
+/**
+ * Bad plant definitions — risky assets that teach ESG and leverage lessons.
+ *
+ * Coal Bush (non-ESG), Junk Weed (distressed bonds), Leveraged Vine (margin).
+ * Each carries scoring penalties if held at the wrong time.
+ */
+
 import { BadPlant, Plant } from '../types';
 import { PLANTS } from './plants';
 
@@ -14,6 +21,8 @@ export const BAD_PLANTS: BadPlant[] = [
     colorName: 'Dark Gray',
     keywords: ['coal', 'fossil', 'esg', 'carbon', 'dirty'],
     unlocksAtLevel: 7,
+    cost: 40,
+    sellRatio: 0.3,
     visualStates: {
       seed: 'coal_bush_seed',
       sprout: 'coal_bush_sprout',
@@ -51,6 +60,8 @@ export const BAD_PLANTS: BadPlant[] = [
     colorName: 'Saddle Brown',
     keywords: ['junk', 'distressed', 'default', 'credit'],
     unlocksAtLevel: 6,
+    cost: 60,
+    sellRatio: 0.25,
     visualStates: {
       seed: 'junk_weed_seed',
       sprout: 'junk_weed_sprout',
@@ -96,6 +107,8 @@ export const BAD_PLANTS: BadPlant[] = [
     colorName: 'Emerald Green',
     keywords: ['leveraged', 'margin', 'amplified', 'liquidation'],
     unlocksAtLevel: 8,
+    cost: 120,
+    sellRatio: 0.2,
     visualStates: {
       seed: 'leveraged_vine_seed',
       sprout: 'leveraged_vine_sprout',
@@ -130,3 +143,18 @@ export const BAD_PLANTS_MAP: Record<string, BadPlant> = {};
 BAD_PLANTS.forEach(p => BAD_PLANTS_MAP[p.id] = p);
 
 export const ALL_PLANTS: (Plant | BadPlant)[] = [...PLANTS, ...BAD_PLANTS];
+
+const ALL_PLANTS_MAP: Record<string, Plant | BadPlant> = {}
+ALL_PLANTS.forEach(p => ALL_PLANTS_MAP[p.id] = p)
+
+/** Get buy cost for any plant (regular or bad) */
+export function getPlantCost(plantId: string): number {
+  return ALL_PLANTS_MAP[plantId]?.cost ?? 100
+}
+
+/** Get sell refund for any plant (regular or bad) */
+export function getPlantSellValue(plantId: string): number {
+  const plant = ALL_PLANTS_MAP[plantId]
+  if (!plant) return 50
+  return Math.round(plant.cost * (plant.sellRatio ?? 0.5))
+}

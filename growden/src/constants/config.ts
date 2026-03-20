@@ -1,12 +1,16 @@
+/**
+ * Game configuration constants — tuning knobs for levels, scoring,
+ * risk profiles, tutorial steps, and per-level event pools.
+ */
+
 import type { RiskProfile, TutorialStep } from '../types'
 
 export const GAME_CONFIG = {
   MAX_LEVEL: 10,
-  STARTING_FLOWERS: 1000,
+  STARTING_FLOWERS: 10000,
   FLOWERS_PER_LEVEL_WIN: 200,
   PLANT_COST: 100,
   MAX_GARDEN_PLOTS: 10,
-  BASE_PORTFOLIO_VALUE: 10000,
 
   // Amplitude multipliers
   AMPLITUDE_MULTIPLIERS: {
